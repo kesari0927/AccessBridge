@@ -39,8 +39,14 @@ import org.accessbridge.domain.model.SummarySource
 @Composable
 fun AccessBridgeScreen(
     state: AppUiState,
+    isServiceEnabled: Boolean,
     onAiConsentChanged: (Boolean) -> Unit,
     onRequestAiSummary: () -> Unit,
+    onSummarize: () -> Unit,
+    onReadAll: () -> Unit,
+    onRefresh: () -> Unit,
+    onClose: () -> Unit,
+    onOpenAccessibilitySettings: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -75,8 +81,19 @@ fun AccessBridgeScreen(
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            if (state.summary == null && !state.isProcessing) {
-                WelcomeCard()
+            if (state.isAssistMode) {
+                AssistMenu(
+                    state = state,
+                    onSummarize = onSummarize,
+                    onReadAll = onReadAll,
+                    onRefresh = onRefresh,
+                    onClose = onClose,
+                )
+            } else if (state.summary == null && !state.isProcessing) {
+                WelcomeCard(
+                    isServiceEnabled = isServiceEnabled,
+                    onOpenAccessibilitySettings = onOpenAccessibilitySettings,
+                )
             }
 
             if (state.isProcessing) {
@@ -99,8 +116,12 @@ fun AccessBridgeScreen(
                 )
             }
 
-            state.summary?.let { summary ->
-                SummaryCard(summary)
+            if (!state.isAssistMode || state.selectedAction == AssistAction.SUMMARY) {
+                state.summary?.let { summary -> SummaryCard(summary) }
+            }
+
+            if (state.isAssistMode && state.selectedAction == AssistAction.READ_ALL) {
+                ReadAllCard(state.assistText.orEmpty())
             }
 
             AiConsentCard(
@@ -123,7 +144,10 @@ fun AccessBridgeScreen(
 }
 
 @Composable
-private fun WelcomeCard() {
+private fun WelcomeCard(
+    isServiceEnabled: Boolean,
+    onOpenAccessibilitySettings: () -> Unit,
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -141,6 +165,23 @@ private fun WelcomeCard() {
                 modifier = Modifier.semantics { heading() },
             )
             Text(
+                text = if (isServiceEnabled) {
+                    "Assist Mode is enabled. Use Android’s accessibility shortcut or button while another app is open."
+                } else {
+                    "Assist Mode is disabled. Enable it manually in Android accessibility settings to use the accessibility shortcut or button."
+                },
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+            )
+            if (!isServiceEnabled) {
+                Button(
+                    onClick = onOpenAccessibilitySettings,
+                    modifier = Modifier.fillMaxWidth().sizeIn(minHeight = 48.dp),
+                ) {
+                    Text("Open accessibility settings")
+                }
+            }
+            Text(
                 text = "In another app, open Android’s Share menu and choose AccessBridge. " +
                     "Visible text will be recognized on this device and organized for TalkBack.",
                 style = MaterialTheme.typography.bodyLarge,
@@ -150,6 +191,60 @@ private fun WelcomeCard() {
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
             )
+        }
+    }
+}
+
+@Composable
+private fun AssistMenu(
+    state: AppUiState,
+    onSummarize: () -> Unit,
+    onReadAll: () -> Unit,
+    onRefresh: () -> Unit,
+    onClose: () -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text(
+            text = "What do you want to know?",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.semantics { heading() },
+        )
+        AssistButton("Summarize current screen", !state.isProcessing && state.summary != null, onSummarize)
+        AssistButton("Read all visible text", !state.isProcessing && state.assistText != null, onReadAll)
+        AssistButton("Refresh current screen", !state.isProcessing, onRefresh)
+        AssistButton("Close AccessBridge", true, onClose)
+    }
+}
+
+@Composable
+private fun AssistButton(label: String, enabled: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = Modifier.fillMaxWidth().sizeIn(minHeight = 56.dp),
+    ) {
+        Text(label)
+    }
+}
+
+@Composable
+private fun ReadAllCard(text: String) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.secondary),
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = "All visible text",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.semantics { heading() },
+            )
+            Text(text = text, style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

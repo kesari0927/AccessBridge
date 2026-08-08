@@ -92,20 +92,19 @@ The initial scaffold currently includes:
 - Bundled ML Kit on-device OCR.
 - Local rule-based text summaries.
 - Optional, consent-gated Featherless text summaries that send recognized text rather than the screenshot.
+- An initial Assist Mode foundation with a manually enabled `AccessibilityService`.
+- Accessibility shortcut/button activation, accessibility-tree text extraction, and one-shot screenshots on Android 11 and newer.
+- A full-screen menu for summarizing, reading visible text, refreshing, or closing back to the previous app.
+- In-memory-only screenshot handoff that combines accessibility text with bundled ML Kit OCR.
 - Architecture and accessibility-testing documentation.
 
 The following capabilities are planned and are **not yet implemented**:
 
-- Android `AccessibilityService`.
-- Accessibility shortcut or accessibility-button activation.
-- Reading the active application's accessibility tree.
-- Capturing the active window through the accessibility service.
-- The question-selection menu.
 - Featherless image or multimodal vision analysis.
 - Map-marker interpretation.
-- Refresh and return-to-previous-application workflow.
+- Ride selection, automatic clicking or booking, overlays, and continuous monitoring.
 
-The Android project has not yet completed a full Android Studio build or real-device TalkBack test. Documentation, demos, and presentations must not claim that any planned capability already works.
+The Android project completes its Gradle build and local unit tests, but has not completed a real-device TalkBack test. Documentation, demos, and presentations must not claim Assist Mode is accessibility-verified until that testing is complete.
 
 ## Development order
 
