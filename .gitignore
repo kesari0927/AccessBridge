@@ -1,0 +1,33 @@
+# DevSwarm workspace files
+.devswarm-temp/
+
+# Operating system and editor files
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# JavaScript tooling
+web/node_modules/
+web/dist/
+web/.vite/
+web/*.tsbuildinfo
+web/vite.config.js
+web/vite.config.d.ts
+*.log
+
+# Android and Gradle
+.gradle/
+android/.gradle/
+android/local.properties
+android/**/build/
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
