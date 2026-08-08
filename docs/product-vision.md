@@ -120,3 +120,32 @@ The Android project has not yet completed a full Android Studio build or real-de
 9. Add optional Featherless vision analysis with separate consent.
 10. Perform real-device TalkBack testing.
 11. Prepare a controlled hackathon demonstration.
+
+## Initial Prototype
+
+The intial AccessBridge prototype successfully works as follows:
+
+1. **Take a screenshot**  
+   The user takes a screenshot of content they want to understand, such as a map, settings screen, webpage, or another app.
+
+2. **Share the screenshot to AccessBridge**  
+   The screenshot is shared to AccessBridge using Android's standard Share menu. AccessBridge is registered as a share target and receives the image.
+
+3. **On-device text recognition (OCR)**  
+   AccessBridge analyzes the screenshot locally and extracts visible text without needing to upload the screenshot to an external service.
+
+4. **Accessible results**  
+   The recognized information is organized into an accessible result. Rather than requiring the user to inspect the original image, AccessBridge presents the detected information as readable text under sections such as **Screen information** and **More details**.
+
+5. **TalkBack support**  
+   The result works with Android TalkBack. When TalkBack is enabled, a blind or low-vision user can navigate to the recognized-information section and have the extracted content read aloud.
+
+### Example
+
+The prototype has been tested with a Google Maps directions screenshot. AccessBridge successfully extracted information including locations, journey duration, distance, route information, and other visible text.
+
+TalkBack was then able to read the resulting information aloud.
+
+### Current Workflow
+
+**Screenshot → Share to AccessBridge → On-device OCR → Accessible text → TalkBack**
