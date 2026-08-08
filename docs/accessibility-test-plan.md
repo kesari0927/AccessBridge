@@ -1,8 +1,8 @@
 # Accessibility test plan
 
-AccessBridge targets WCAG 2.2 Level AA. This checklist separates verifiable implementation checks from tests that require a real browser, screen reader, emulator, or Android device.
+AccessBridge targets WCAG 2.2 Level AA. This checklist separates the current landing page and screenshot-sharing prototype from planned assist-mode coverage. Planned checks remain unchecked until their corresponding features exist and can be tested with TalkBack.
 
-## Implementation checks
+## Landing-page implementation checks
 
 - [x] Exactly one page-level `h1` with logical `h2` and `h3` descendants
 - [x] Header, navigation, main, section, and footer landmarks
@@ -29,9 +29,9 @@ Run these checks at 320px, 768px, and a wide desktop viewport, then repeat at 20
 5. In VoiceOver with Safari or Chrome, or NVDA with Chrome or Firefox, navigate by landmarks and headings. Confirm labels and section order match the visual page.
 6. Confirm the CSS bridge/sound-wave marks are ignored and do not create meaningless screen-reader output.
 
-## Android and TalkBack checks
+## Current Android screenshot-sharing checks
 
-1. Enable TalkBack and launch AccessBridge in Chrome’s Android environment or on a physical Android device.
+1. Enable TalkBack on an Android emulator or physical Android device and launch AccessBridge.
 2. From a screenshot-capable app, share one screenshot to AccessBridge.
 3. Confirm TalkBack announces processing status, then the summary headline, source, section labels, and content in that order.
 4. Confirm the full “AI text sharing” row toggles the switch and has a single switch role.
@@ -39,9 +39,27 @@ Run these checks at 320px, 768px, and a wide desktop viewport, then repeat at 20
 6. With a test Featherless key, turn AI on and confirm the disclosure is announced before requesting a summary.
 7. Increase Android font size and display size to their largest settings. Confirm all content remains reachable by scrolling and controls remain usable.
 
+## Planned assist-mode checks
+
+These checks describe requirements, not working features:
+
+- [ ] Confirm analysis begins only after the user invokes the accessibility shortcut or button.
+- [ ] Confirm AccessBridge opens a full-screen Compose question menu with standard controls, large touch targets, meaningful labels, and logical focus order.
+- [ ] Confirm TalkBack reads every question option, including refresh and close, without competing automatic speech.
+- [ ] Confirm loading and result changes are announced once and at an appropriate priority.
+- [ ] Confirm accessibility-tree information and OCR results are represented as snapshot information rather than guaranteed live data.
+- [ ] Confirm “Refresh current information” captures and analyses a new snapshot.
+- [ ] Confirm “Close AccessBridge” returns the user to the previous application.
+- [ ] Confirm the on-device-only option performs no image upload.
+- [ ] Confirm full-image vision analysis has separate, affirmative consent explaining that screenshots may contain location, driver, vehicle, and other personal information.
+- [ ] Confirm declining or revoking vision consent preserves the on-device flow.
+- [ ] Confirm uncertain roads, markers, distances, and directions are described with uncertainty and never invented.
+- [ ] Repeat assist-mode testing on a physical device with TalkBack and large font/display settings.
+
 ## Current environment status
 
 - Production TypeScript/Vite build: passed
 - Chrome interactive test: pending; no connected Chrome browser session was available
 - VoiceOver/NVDA test: pending; requires an assistive-technology session
 - TalkBack share-flow test: pending; requires an Android SDK/emulator or physical device
+- Assist-mode test suite: planned; the corresponding Android features are not implemented

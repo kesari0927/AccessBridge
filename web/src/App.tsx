@@ -102,7 +102,7 @@ function App() {
               <p className="eyebrow">A clearer path through visual interfaces</p>
               <h1 id="hero-title">When apps go silent, AccessBridge speaks.</h1>
               <p className="hero-lede">
-                Share a screenshot and turn crowded, graphical screens into calm,
+                The current prototype turns a screenshot you choose to share into calm,
                 structured text that TalkBack can communicate clearly.
               </p>
               <div className="hero-actions">
@@ -114,7 +114,7 @@ function App() {
                 </a>
               </div>
               <p className="prototype-note">
-                Android hackathon prototype · OCR works on-device · No account needed
+                Current prototype: manual sharing · OCR works on-device · No account needed
               </p>
             </div>
 
@@ -149,7 +149,7 @@ function App() {
                 </div>
               </div>
               <figcaption>
-                Placeholder preview of an organized AccessBridge summary.
+                Simulated placeholder preview of an organized AccessBridge summary.
               </figcaption>
             </figure>
           </div>
@@ -167,8 +167,8 @@ function App() {
                 leave TalkBack with too little context—or nothing useful to say.
               </p>
               <p>
-                AccessBridge offers another route: the person shares a screenshot, then
-                receives the visible information in a practical reading order they can use.
+                The current fallback offers another route: the person shares a screenshot,
+                then receives visible text in a practical reading order they can use.
               </p>
             </div>
           </div>
@@ -178,8 +178,8 @@ function App() {
           <div className="page-shell">
             <SectionHeading
               eyebrow="How it works"
-              title="Three deliberate steps. You stay in control."
-              description="AccessBridge works from a screenshot you choose to share, without controlling or reading another app directly."
+              title="Current prototype: three deliberate steps."
+              description="Today, AccessBridge works from a screenshot you manually share. Planned assist mode will use user-activated screen snapshots and accessibility data; those features are not implemented yet."
             />
             <ol className="steps-grid">
               {steps.map((step) => (
@@ -295,11 +295,12 @@ function App() {
           <div className="page-shell trust-grid">
             <article className="trust-card trust-card-positive">
               <p className="eyebrow">Privacy by default</p>
-              <h2 id="privacy-title">The screenshot stays on your device.</h2>
+              <h2 id="privacy-title">Current text analysis stays on-device.</h2>
               <ul className="check-list">
                 <li>Bundled ML Kit performs screenshot OCR on-device.</li>
-                <li>The optional AI summary is off until you choose it.</li>
-                <li>After permission, only recognized text is sent—not the image.</li>
+                <li>The current optional AI text summary is off until you choose it.</li>
+                <li>In today's flow, only recognized text is sent—not the image.</li>
+                <li>Planned image analysis is not implemented and will require separate consent.</li>
                 <li>No AccessBridge account, database, or usage profile is created.</li>
               </ul>
             </article>
@@ -307,9 +308,9 @@ function App() {
               <p className="eyebrow">Clear limitations</p>
               <h2>Useful assistance, honest boundaries.</h2>
               <ul className="boundary-list">
-                <li>Cannot track a real Grab vehicle or read its live location.</li>
+                <li>Cannot provide guaranteed live GPS tracking.</li>
                 <li>Cannot control Grab or perform actions inside another app.</li>
-                <li>Cannot interpret every map or visual layout accurately.</li>
+                <li>Planned marker analysis will describe one user-requested snapshot.</li>
                 <li>Cannot access private Grab account or ride data.</li>
               </ul>
             </article>
@@ -320,10 +321,11 @@ function App() {
           <div className="page-shell technology-grid">
             <div>
               <p className="eyebrow">Technology and sponsor tools</p>
-              <h2 id="technology-title">Built for a focused Android prototype.</h2>
+              <h2 id="technology-title">A focused scaffold with a clear next step.</h2>
               <p>
-                A deliberately small stack keeps the experience understandable, testable,
-                and ready for a hackathon demonstration.
+                Manual sharing and text summaries work in the current scaffold. Assist-mode
+                capture, its question menu, accessibility-tree reading, and image analysis
+                remain planned and must be tested before a hackathon demonstration.
               </p>
             </div>
             <ul className="technology-list" aria-label="Technologies used">
