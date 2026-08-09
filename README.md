@@ -31,20 +31,20 @@ Run `bun run build` to create a production build in `web/dist`.
 
 Open the `android` directory in Android Studio. The app targets Android 8.0+ and accepts manually shared screenshots through the Android share sheet. This share flow is the current implementation and will remain available as a fallback. OCR uses ML Kit's bundled on-device text recognizer.
 
-The optional Featherless AI summary is disabled unless the user opts in. For local development, expose an API key and optional model before building:
+The optional Featherless AI summary is disabled unless the user opts in. For local development, add the API key and optional model to the gitignored `android/local.properties` file:
 
-```bash
-export FEATHERLESS_API_KEY="your-key"
-export FEATHERLESS_MODEL="your-model-id"
+```properties
+featherless.apiKey=your-key
+featherless.model=Qwen/Qwen2.5-7B-Instruct
 ```
 
-In the current text-summary flow, only recognized text—not the screenshot—is sent when AI summaries are enabled. Build-time API keys are suitable for a prototype only and must not be used for a production release.
+The app uses Featherless's current OpenAI-compatible chat-completions API. Only extracted accessibility/OCR text—not the screenshot—is sent when AI summaries are enabled. If Featherless is unconfigured or unavailable, the app automatically shows its on-device summary. Build-time API keys are suitable for a prototype only and must not be used for a production release.
 
 ## Assist mode foundation
 
-Assist mode can be enabled manually in Android accessibility settings and activated through Android's configured accessibility shortcut or button. Each activation reads the active app's exposed accessibility text and content descriptions. On Android 11 and newer it also requests one screenshot, keeps it only in memory while bundled ML Kit OCR runs, merges both text sources, and opens a full-screen TalkBack-friendly action menu. The same on-device and optional consent-gated Featherless text summaries are reused. Manual screenshot sharing remains available as a fallback.
+Assist mode can be enabled manually in Android accessibility settings and activated through Android's configured accessibility shortcut or button. Each activation reads the active app's exposed accessibility text and content descriptions. On Android 11 and newer it also requests one screenshot, keeps it only in memory while bundled ML Kit OCR runs, and merges both text sources. A temporary TalkBack-friendly accessibility panel appears over the current app for summarizing, reading, refreshing, or closing. Closing removes the panel without changing the underlying app. The same on-device and optional consent-gated Featherless text summaries are reused. Manual screenshot sharing remains available as a fallback.
 
-Map-marker interpretation, Featherless image or multimodal vision analysis, ride selection, automatic clicking or booking, overlays, and continuous monitoring are not implemented. Assist mode still requires real-device TalkBack and protected-screen testing before it can be described as accessibility-verified.
+Map-marker interpretation, Featherless image or multimodal vision analysis, ride selection, automatic clicking or booking, persistent overlays, and continuous monitoring are not implemented. Assist mode still requires real-device TalkBack, overlay, and protected-screen testing before it can be described as accessibility-verified.
 
 ## Prototype boundaries
 

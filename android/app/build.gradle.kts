@@ -1,19 +1,28 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-val featherlessApiKey = providers.environmentVariable("FEATHERLESS_API_KEY")
-    .orElse("")
-    .get()
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.isFile) {
+        localPropertiesFile.inputStream().use { input -> load(input) }
+    }
+}
+
+fun localProperty(name: String, defaultValue: String = ""): String =
+    localProperties.getProperty(name, defaultValue)
     .replace("\\", "\\\\")
     .replace("\"", "\\\"")
-val featherlessModel = providers.environmentVariable("FEATHERLESS_MODEL")
-    .orElse("meta-llama/Meta-Llama-3.1-8B-Instruct")
-    .get()
-    .replace("\\", "\\\\")
-    .replace("\"", "\\\"")
+
+val featherlessApiKey = localProperty("featherless.apiKey")
+val featherlessModel = localProperty(
+    "featherless.model",
+    "Qwen/Qwen2.5-7B-Instruct",
+)
 
 android {
     namespace = "org.accessbridge"
