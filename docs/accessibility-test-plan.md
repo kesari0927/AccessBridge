@@ -39,17 +39,17 @@ Run these checks at 320px, 768px, and a wide desktop viewport, then repeat at 20
 6. With a test Featherless key, turn AI on and confirm the disclosure is announced before requesting a summary.
 7. Increase Android font size and display size to their largest settings. Confirm all content remains reachable by scrolling and controls remain usable.
 
-## Planned assist-mode checks
+## Assist-mode device checks
 
-These checks describe requirements, not working features:
+These checks require an emulator or physical device:
 
 - [ ] Confirm analysis begins only after the user invokes the accessibility shortcut or button.
-- [ ] Confirm AccessBridge opens a full-screen Compose question menu with standard controls, large touch targets, meaningful labels, and logical focus order.
+- [ ] Confirm AccessBridge opens a temporary accessibility panel over the current app with standard controls, large touch targets, meaningful labels, and logical focus order.
 - [ ] Confirm TalkBack reads every question option, including refresh and close, without competing automatic speech.
 - [ ] Confirm loading and result changes are announced once and at an appropriate priority.
 - [ ] Confirm accessibility-tree information and OCR results are represented as snapshot information rather than guaranteed live data.
 - [ ] Confirm “Refresh current information” captures and analyses a new snapshot.
-- [ ] Confirm “Close AccessBridge” returns the user to the previous application.
+- [ ] Confirm “Close AccessBridge” removes the panel and leaves the underlying application unchanged.
 - [ ] Confirm the on-device-only option performs no image upload.
 - [ ] Confirm full-image vision analysis has separate, affirmative consent explaining that screenshots may contain location, driver, vehicle, and other personal information.
 - [ ] Confirm declining or revoking vision consent preserves the on-device flow.
@@ -62,4 +62,4 @@ These checks describe requirements, not working features:
 - Chrome interactive test: pending; no connected Chrome browser session was available
 - VoiceOver/NVDA test: pending; requires an assistive-technology session
 - TalkBack share-flow test: pending; requires an Android SDK/emulator or physical device
-- Assist-mode test suite: planned; the corresponding Android features are not implemented
+- Assist-mode automated coverage currently includes extracted-text combination, local summary prioritization, and AI prompt constraints. Real-device overlay and TalkBack interaction testing remains required.

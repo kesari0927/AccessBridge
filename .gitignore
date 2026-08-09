@@ -18,9 +18,11 @@ web/vite.config.d.ts
 
 # Android and Gradle
 .gradle/
+.kotlin/
 android/.gradle/
 android/local.properties
 android/**/build/
+*.apk
 android/captures/
 android/.externalNativeBuild/
 android/.cxx/

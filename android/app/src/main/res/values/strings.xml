@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AccessBridge</string>
+    <string name="accessibility_service_label">AccessBridge Assist Mode</string>
+    <string name="accessibility_service_description">Open a user-requested menu that reads the current app’s accessible text and, on supported Android versions, captures one temporary screenshot for on-device text recognition.</string>
+    <string name="visible_text_ready">Visible text ready.</string>
+    <string name="all_visible_text">All visible text</string>
 </resources>

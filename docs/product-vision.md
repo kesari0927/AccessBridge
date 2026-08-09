@@ -14,7 +14,7 @@ The planned assist-mode workflow is explicitly initiated by the user:
 
 1. While using an application such as Grab, the user activates AccessBridge through Android's accessibility shortcut or accessibility button.
 2. Only after that activation, AccessBridge captures a snapshot of the current screen.
-3. AccessBridge opens a simple, full-screen, TalkBack-friendly Compose activity.
+3. AccessBridge opens a temporary, TalkBack-friendly accessibility panel over the current app.
 4. The activity asks, “What do you want to know?”
 
 The menu should offer:
@@ -27,7 +27,7 @@ The menu should offer:
 - Refresh current information
 - Close AccessBridge
 
-For the hackathon prototype, a normal full-screen activity is preferred to a floating overlay. Manual screenshot sharing remains available as a fallback.
+The user-invoked panel is an accessibility overlay that exists only for the current request. It is not a persistent floating bubble, and closing it leaves the underlying application in place. Manual screenshot sharing remains available as a fallback.
 
 ## Analysis approach
 
@@ -66,9 +66,9 @@ Every answer must distinguish visible or inferred snapshot information from guar
 - Maintain a logical focus and reading order with clear accessibility labels.
 - Announce loading and result changes through accessible UI state.
 - Let TalkBack read results instead of adding separate automatic speech.
-- Closing AccessBridge should return the user to the previous application.
+- Closing AccessBridge should remove the temporary panel without changing the underlying application.
 - Keep manual screenshot sharing as a fallback.
-- Prefer a normal full-screen Compose activity to a floating overlay for the hackathon prototype.
+- Use only a temporary, user-invoked accessibility overlay; do not add a persistent floating overlay.
 - Perform real-device TalkBack testing before claiming assist mode is accessible or complete.
 
 ## Privacy requirements
@@ -92,20 +92,19 @@ The initial scaffold currently includes:
 - Bundled ML Kit on-device OCR.
 - Local rule-based text summaries.
 - Optional, consent-gated Featherless text summaries that send recognized text rather than the screenshot.
+- An initial Assist Mode foundation with a manually enabled `AccessibilityService`.
+- Accessibility shortcut/button activation, accessibility-tree text extraction, and one-shot screenshots on Android 11 and newer.
+- A temporary accessibility panel for summarizing, reading visible text, refreshing, or closing without leaving the current app.
+- In-memory-only screenshot handoff that combines accessibility text with bundled ML Kit OCR.
 - Architecture and accessibility-testing documentation.
 
 The following capabilities are planned and are **not yet implemented**:
 
-- Android `AccessibilityService`.
-- Accessibility shortcut or accessibility-button activation.
-- Reading the active application's accessibility tree.
-- Capturing the active window through the accessibility service.
-- The question-selection menu.
 - Featherless image or multimodal vision analysis.
 - Map-marker interpretation.
-- Refresh and return-to-previous-application workflow.
+- Ride selection, automatic clicking or booking, persistent overlays, and continuous monitoring.
 
-The Android project has not yet completed a full Android Studio build or real-device TalkBack test. Documentation, demos, and presentations must not claim that any planned capability already works.
+The Android project completes its Gradle build and local unit tests, but has not completed a real-device TalkBack test. Documentation, demos, and presentations must not claim Assist Mode is accessibility-verified until that testing is complete.
 
 ## Development order
 

@@ -48,14 +48,13 @@ class FeatherlessSummaryRepository(
                                     .put("role", "system")
                                     .put(
                                         "content",
-                                        "Organize recognized screen text into a concise, factual, " +
-                                            "TalkBack-friendly summary. Do not invent details.",
+                                        ScreenSummaryPrompt.SYSTEM_PROMPT,
                                     ),
                             )
                             .put(
                                 JSONObject()
                                     .put("role", "user")
-                                    .put("content", recognizedText),
+                                    .put("content", ScreenSummaryPrompt.userMessage(recognizedText)),
                             ),
                     )
 
@@ -72,7 +71,14 @@ class FeatherlessSummaryRepository(
                 val responseText = responseStream?.bufferedReader()?.use { it.readText() }.orEmpty()
 
                 check(responseCode in 200..299) {
-                    "The optional AI summary could not be created (HTTP $responseCode)."
+                    val apiMessage = runCatching {
+                        JSONObject(responseText).optJSONObject("error")?.optString("message")
+                    }.getOrNull().orEmpty()
+                    if (apiMessage.isBlank()) {
+                        "The optional AI summary could not be created (HTTP $responseCode)."
+                    } else {
+                        "The optional AI summary could not be created: $apiMessage"
+                    }
                 }
 
                 val content = JSONObject(responseText)
@@ -82,11 +88,15 @@ class FeatherlessSummaryRepository(
                     .getString("content")
                     .trim()
 
+                check(content.isNotEmpty()) {
+                    "Featherless returned an empty summary."
+                }
+
                 AccessibleSummary(
                     headline = "AI-assisted screen summary",
                     sections = listOf(
                         SummarySection(
-                            label = "Organized information",
+                            label = "What is on this screen",
                             content = content,
                         ),
                     ),
