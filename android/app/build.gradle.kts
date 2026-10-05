@@ -24,24 +24,51 @@ val featherlessModel = localProperty(
     "Qwen/Qwen2.5-7B-Instruct",
 )
 
+// Upload-key details live in the gitignored android/keystore.properties file.
+val keystoreProperties = Properties().apply {
+    val keystorePropertiesFile = rootProject.file("keystore.properties")
+    if (keystorePropertiesFile.isFile) {
+        keystorePropertiesFile.inputStream().use { input -> load(input) }
+    }
+}
+
 android {
     namespace = "org.accessbridge"
-    compileSdk = 35
+    // Google Play requires new apps and updates to target Android 16 (API 36).
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "org.accessbridge"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "FEATHERLESS_API_KEY", "\"$featherlessApiKey\"")
         buildConfigField("String", "FEATHERLESS_MODEL", "\"$featherlessModel\"")
     }
 
+    signingConfigs {
+        if (keystoreProperties.isNotEmpty()) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            buildConfigField("String", "FEATHERLESS_API_KEY", "\"$featherlessApiKey\"")
+        }
         release {
+            // Anything in BuildConfig can be extracted from a published app, so release
+            // builds never embed the key. AI summaries stay hidden until a server-side
+            // proxy holds the key instead.
+            buildConfigField("String", "FEATHERLESS_API_KEY", "\"\"")
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

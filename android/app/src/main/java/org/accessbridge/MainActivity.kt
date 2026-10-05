@@ -2,12 +2,15 @@ package org.accessbridge
 
 import android.content.ComponentName
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +28,9 @@ class MainActivity : ComponentActivity() {
     private var isServiceEnabled by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Android 16 always draws apps edge to edge; the screen pads itself for system bars.
+        // Light status-bar icons keep the clock readable over the navy header.
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
         super.onCreate(savedInstanceState)
         sharedImageUri = intent.sharedImageUri()
         assistCaptureId = intent.getStringExtra(EXTRA_ASSIST_CAPTURE_ID)

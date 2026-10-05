@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Request only what Assist Mode uses: the active window's node tree and one screenshot per
+    user activation. The service ignores accessibility events, so it subscribes to the minimum.
+    isAccessibilityTool declares this as a disability-support tool for Google Play review.
+-->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityEventTypes="typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagReportViewIds|flagRetrieveInteractiveWindows|flagRequestAccessibilityButton"
+    android:accessibilityFlags="flagRequestAccessibilityButton"
     android:canRetrieveWindowContent="true"
     android:canTakeScreenshot="true"
     android:description="@string/accessibility_service_description"
+    android:isAccessibilityTool="true"
     android:notificationTimeout="100" />

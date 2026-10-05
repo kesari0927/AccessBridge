@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AccessBridge</string>
     <string name="accessibility_service_label">AccessBridge Assist Mode</string>
-    <string name="accessibility_service_description">Open a user-requested menu that reads the current app’s accessible text and, on supported Android versions, captures one temporary screenshot for on-device text recognition.</string>
+    <string name="accessibility_service_description">Helps blind and low-vision people understand screens that TalkBack cannot fully describe. Only when you press the accessibility button or shortcut, AccessBridge reads the current app’s accessible text and, on Android 11 and newer, takes one screenshot that is processed on this device and never saved. It does not monitor your activity or act in other apps, and screen content stays on this device unless you turn on optional AI summaries.</string>
     <string name="visible_text_ready">Visible text ready.</string>
     <string name="all_visible_text">All visible text</string>
 </resources>
