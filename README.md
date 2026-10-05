@@ -38,7 +38,9 @@ featherless.apiKey=your-key
 featherless.model=Qwen/Qwen2.5-7B-Instruct
 ```
 
-The app uses Featherless's current OpenAI-compatible chat-completions API. Only extracted accessibility/OCR text—not the screenshot—is sent when AI summaries are enabled. If Featherless is unconfigured or unavailable, the app automatically shows its on-device summary. Build-time API keys are suitable for a prototype only and must not be used for a production release.
+The app uses Featherless's current OpenAI-compatible chat-completions API. Only extracted accessibility/OCR text—not the screenshot—is sent when AI summaries are enabled. If Featherless is unconfigured or unavailable, the app automatically shows its on-device summary. The key is compiled into debug builds only; release builds never embed it and hide the AI option, because anything in an APK can be extracted. Shipping AI summaries in a release requires a server-side proxy that holds the key.
+
+See [`docs/publishing.md`](docs/publishing.md) for the Google Play release checklist and [`docs/privacy-policy.md`](docs/privacy-policy.md) for the privacy policy.
 
 ## Assist mode foundation
 

@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
@@ -57,6 +60,7 @@ fun AccessBridgeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.statusBars)
                         .padding(horizontal = 20.dp, vertical = 18.dp),
                 ) {
                     Text(
@@ -124,17 +128,20 @@ fun AccessBridgeScreen(
                 ReadAllCard(state.assistText.orEmpty())
             }
 
-            AiConsentCard(
-                consentGranted = state.aiConsentGranted,
-                isConfigured = state.isAiConfigured,
-                hasRecognizedText = state.recognizedText != null,
-                isProcessing = state.isProcessing,
-                onConsentChanged = onAiConsentChanged,
-                onRequestSummary = onRequestAiSummary,
-            )
+            // Release builds carry no AI key, so store users never see an unusable option.
+            if (state.isAiConfigured) {
+                AiConsentCard(
+                    consentGranted = state.aiConsentGranted,
+                    isConfigured = state.isAiConfigured,
+                    hasRecognizedText = state.recognizedText != null,
+                    isProcessing = state.isProcessing,
+                    onConsentChanged = onAiConsentChanged,
+                    onRequestSummary = onRequestAiSummary,
+                )
+            }
 
             Text(
-                text = "Hackathon prototype—not affiliated with Grab.",
+                text = "AccessBridge is independent and not affiliated with the apps it reads.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

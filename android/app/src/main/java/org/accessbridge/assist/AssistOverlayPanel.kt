@@ -120,16 +120,12 @@ class AssistOverlayPanel(
         content.addView(statusView, matchWidth())
 
         aiCheckBox = CheckBox(service).apply {
-            text = if (isAiConfigured) {
-                "Use optional Featherless AI for summaries. Only extracted text is sent."
-            } else {
-                "Featherless is not configured. Summaries stay on this device."
-            }
-            isEnabled = isAiConfigured
+            text = "Use optional Featherless AI for summaries. Only extracted text is sent."
             minHeight = dp(48)
             setTextColor(Color.BLACK)
         }
-        content.addView(aiCheckBox, matchWidth())
+        // Without a configured key the box stays unchecked and hidden, so summaries stay on-device.
+        if (isAiConfigured) content.addView(aiCheckBox, matchWidth())
 
         summarizeButton = actionButton("Summarize current screen") {
             callbacks.onSummarize(aiCheckBox.isChecked)

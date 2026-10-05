@@ -21,6 +21,7 @@ web/vite.config.d.ts
 .kotlin/
 android/.gradle/
 android/local.properties
+android/keystore.properties
 android/**/build/
 *.apk
 android/captures/
